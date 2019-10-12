@@ -32,4 +32,33 @@ def splitDataSet(dataSet,axis,value):
     return retDataSet
 
 
+def chooseBestFeatureToSplit(dataSet):
+    numFeatures=len(dataSet[0])-1
+    baseEntropy=calcShannonEnt(dataSet)
+    baseInfoGain=0.0
+    bestFeature=-1
+    for i in range(numFeatures):
+        # 提取列表dataSet中每个列表的第i个值组成一个新列表
+        featList=[example[i] for example in dataSet]
+        # set(集合)类型，集合中每个值各不相同，因此set()是从列表中获得唯一元素值的最快方法
+        uniqueVals=set(featList)
+        newEntropy=0.0
+        for value in uniqueVals:
+            subDataSet=splitDataSet(dataSet,i,value)
+            prob=len(subDataSet)/float(len(dataSet))
+            # 将分完之后每一块的熵按权相加
+            newEntropy+=prob*calcShannonEnt(subDataSet)
+        infoGain=baseEntropy-newEntropy
+        if(infoGain>baseInfoGain):
+            baseInfoGain=infoGain
+            bestFeature=i
+    return bestFeature
+
+
+dataSet,label = createDataSet()
+print(chooseBestFeatureToSplit(dataSet))
+
+
+
+
 
