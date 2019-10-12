@@ -56,7 +56,6 @@ def chooseBestFeatureToSplit(dataSet):
     return bestFeature
 
 
-
 def majorityCnt(classList):
     classCount = {}
     for vote in classList:
@@ -87,4 +86,10 @@ def createTree(dataSet, labels):
 
 
 dataSet, labels = createDataSet()
-print(createTree(dataSet,labels))
+print(createTree(dataSet, labels))
+
+fr = open('lenses.txt')
+lenses = [inst.strip().split('\t') for inst in fr.readlines()]
+lensesLabels = ['age', 'prescript', 'astigmatic', 'tearRate']
+lensesTree = createTree(lenses, lensesLabels)
+print(lensesTree)
